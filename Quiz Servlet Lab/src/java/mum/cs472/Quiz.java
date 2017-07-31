@@ -32,5 +32,10 @@ public class Quiz {
     
     public int getAnswer(int index){
         return answers[index];
-    }    
+    }
+    
+    public int numberOfQue(){
+        return questions.length;
+    }
+    
 }

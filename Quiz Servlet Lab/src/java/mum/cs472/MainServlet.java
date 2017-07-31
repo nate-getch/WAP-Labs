@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 public class MainServlet extends HttpServlet {
     
     private Quiz quiz = new Quiz();
-    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -31,12 +30,9 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // lets delete old session data, at initial page load
-        if(request.getSession(true) == null){
-            request.getSession().invalidate();
-            //return;
-        }
+
         //request.setAttribute("currentQue", quiz.getQuestion(0));
+        request.getSession().setAttribute("quizStatus", "start");
         request.getSession().setAttribute("currentQue", quiz.getQuestion(0));
         request.getSession().setAttribute("currentQueNo", 0);
         request.getSession().setAttribute("scoreTotal", 0);
@@ -56,10 +52,12 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-       // if(request.getParameter("ans").toString().equals("")){
-          //  return;
-      //  }
+        // if session has expired/null, lets refresh the page
+        if(request.getSession().getAttribute("currentQueNo") == null ){
+            request.getSession().invalidate(); 
+            response.sendRedirect("quiz");
+            return;
+        }
         
         int currQ =  Integer.parseInt(request.getSession().getAttribute("currentQueNo").toString());
         int currentScore = Integer.parseInt(request.getSession().getAttribute("scoreTotal").toString());
@@ -71,26 +69,15 @@ public class MainServlet extends HttpServlet {
             //request.setAttribute("currentQue", quiz.getQuestion(currQ+1));
             request.getSession().setAttribute("currentQue", quiz.getQuestion(currQ+1));
             request.getSession().setAttribute("currentQueNo", currQ+1);
+            request.getSession().setAttribute("quiz", quiz);
             response.sendRedirect("form.jsp");
             // using forward method is posting the form during refresh between forms.. lets use redirect.
            // request.getRequestDispatcher("form.jsp").forward(request, response);
         }
         else{
-            response.setContentType("text/html;charset=UTF-8");
+            request.getSession().setAttribute("quizStatus", "end");
+            response.sendRedirect("form.jsp");
             
-            try (PrintWriter out = response.getWriter()) {
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Number Quiz</title>");
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>The Number Quiz</h1>");
-                out.println("<p>Your current Score is "+ currentScore+"</p>");
-                out.println("<p>You have completed the Quiz, with Score "+ currentScore + " out of "+ quiz.getQuestions().length +"</p>");
-                out.println("</body>");
-                out.println("</html>");
-            }
         }
         
     }
