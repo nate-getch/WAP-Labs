@@ -24,7 +24,7 @@
             </form>
             
             <% } else { %>
-                <p>Your current Score is ${scoreTotal} </p>
+                <p>Your Total Score is ${scoreTotal} </p>
                 <p>You have completed the Quiz, with Score ${scoreTotal} out of ${quiz.numberOfQue()}</p>
                 <a href="quiz">Click here to Re-Attempt Quiz</a>
              <% } %>
