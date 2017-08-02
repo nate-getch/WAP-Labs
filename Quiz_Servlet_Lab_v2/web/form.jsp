@@ -26,9 +26,11 @@
                 <p>Enter Age <input required size="7" type="text" name="age" value="${age}"/></p>
                 <p>Your current Score is: ${scoreTotal} </p>
                 <p>Guess the next number in the sequence <br/> ${currentQue} </p>
-                <p>Your Answer <input required size="7" type="number" name="ans"/></p>
+                <p>Your Answer <input required size="7" type="number" name="ans"/>
+                <input type="button" name="btnHint" value="Hint?" onclick="alert('${queHint}')"></p>
                 ${validationMessage}
-                <input type="submit" > (Try # ${retryNum})
+                <input type="submit" > (Attempt # ${retryNum} / 3)
+                <p></p>
             </form>
             
             <% } else { %>

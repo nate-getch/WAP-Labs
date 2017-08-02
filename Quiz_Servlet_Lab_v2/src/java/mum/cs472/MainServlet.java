@@ -34,6 +34,7 @@ public class MainServlet extends HttpServlet {
         //request.setAttribute("currentQue", quiz.getQuestion(0));
         request.getSession().setAttribute("quizStatus", "start");
         request.getSession().setAttribute("currentQue", quiz.getQuestion(0));
+        request.getSession().setAttribute("queHint", quiz.getQuestionHint(0));
         request.getSession().setAttribute("currentQueNo", 0);
         request.getSession().setAttribute("scoreTotal", 0);
         request.getSession().setAttribute("validationMessage", "");
@@ -88,13 +89,16 @@ public class MainServlet extends HttpServlet {
         
         if(ans == quiz.getAnswer(currQ)) {
             if(retryNum==1){
-                request.getSession().setAttribute("scoreTotal", currentScore+10);
+                currentScore+=10;
+                request.getSession().setAttribute("scoreTotal", currentScore);
             }
             else if (retryNum==2){
-                request.getSession().setAttribute("scoreTotal", currentScore+5);
+                currentScore+=5;
+                request.getSession().setAttribute("scoreTotal", currentScore);
             }
             else if (retryNum==3){
-                request.getSession().setAttribute("scoreTotal", currentScore+2);
+                currentScore+=2;
+                request.getSession().setAttribute("scoreTotal", currentScore);
             }
             request.getSession().setAttribute("retryNum",1);
             //request.getSession().setAttribute("scoreTotal", currentScore+1);
@@ -116,6 +120,7 @@ public class MainServlet extends HttpServlet {
         if (quiz.getQuestions().length > currQ+1){
             //request.setAttribute("currentQue", quiz.getQuestion(currQ+1));
             request.getSession().setAttribute("currentQue", quiz.getQuestion(currQ+1));
+            request.getSession().setAttribute("queHint", quiz.getQuestionHint(currQ+1));
             request.getSession().setAttribute("currentQueNo", currQ+1);
             response.sendRedirect("form.jsp");
             // using forward method is posting the form during refresh between forms.. lets use redirect.
