@@ -2,7 +2,7 @@
  * Author: Natnael Demisse
  */
 (function () { // no globals
-    "use strict"
+    "use strict";
     var playBtn = document.getElementById("play");
     var stopBtn = document.getElementById("stop");
     var textarea = document.getElementById("textarea");
@@ -19,11 +19,11 @@
     stopBtn.onclick = stopAnimation;
     anim_selector.onchange = function () {
         stopAnimation();
-    }
+    };
 
     size.onchange = function () {
         textarea.style.fontSize = document.getElementById("size").value;
-    }
+    };
 
     speed_selector.onchange = function () {
         if (speed_selector.checked)
@@ -32,7 +32,7 @@
             speed = 250;
         clearInterval(timer);
         timer = setInterval(animate, speed);
-    }
+    };
 
     function beginAnimation() {
         if (anim_type != "BLANK") {
