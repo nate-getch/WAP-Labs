@@ -7,7 +7,7 @@ body{
 fieldset{
 	width:150px;
 	display:inline-block;
-	border:soild 5px #000;
+	border:5px solid #000;
 }
 .container{
 	overflow: hidden;

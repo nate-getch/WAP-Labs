@@ -26,12 +26,17 @@
     };
 
     speed_selector.onchange = function () {
-        if (speed_selector.checked)
-            speed = 50;
-        else
-            speed = 250;
-        clearInterval(timer);
-        timer = setInterval(animate, speed);
+		if (speed_selector.checked){
+			speed = 50;
+		}
+		else{
+			speed = 250;
+		}
+		//only make change if already animating
+		if(!stopBtn.disabled){
+			clearInterval(timer);
+			timer = setInterval(animate, speed);
+		}
     };
 
     function beginAnimation() {
