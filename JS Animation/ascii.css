@@ -1,0 +1,20 @@
+body{
+	background: #CCCCFF;
+	font-weight: bold;
+	font-size: 14pt;
+	
+}
+fieldset{
+	width:150px;
+	display:inline-block;
+	border:soild 5px #000;
+}
+.container{
+	overflow: hidden;
+}
+textarea{
+	height:400px;
+	width:90%;
+	font-family:monospace;
+	
+}
