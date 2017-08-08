@@ -8,13 +8,20 @@ fieldset{
 	width:150px;
 	display:inline-block;
 	border:5px solid #000;
+	
 }
 .container{
 	overflow: hidden;
+	margin:0 auto;
+	max-width:990px;
 }
 textarea{
 	height:400px;
 	width:90%;
 	font-family:monospace;
 	
+}
+.validator-wrap{
+	margin-top:15px;
+	clear:both;
 }

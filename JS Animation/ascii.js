@@ -13,7 +13,7 @@
     var speed = 250;
     var frame = "";
     var timer = null;
-    var counter = 0;
+    //var counter = 0;
 
     playBtn.onclick = beginAnimation;
     stopBtn.onclick = stopAnimation;
@@ -49,18 +49,21 @@
         }
     }
 
-    function animate() { // applying concept of closure thru inner function
-        textarea.value = frame[counter];
-        counter++;
+    function animate() {
+		var t = frame.shift(); // get/return + remove first element
+		textarea.value = t;
+		frame.push(t); // push first element to last
+		//textarea.value = frame[counter];
+        //counter++;
         // when last frame reaches
-        if (frame.length == counter) {
-            counter = 0;
-            beginAnimation;
-        }
+        //if (frame.length == counter) {
+            //counter = 0;
+            //beginAnimation;
+        //}
     }
 
     function stopAnimation() {
-        counter = 0;
+        //counter = 0;
         playBtn.disabled = false;
         stopBtn.disabled = true;
         anim_selector.disabled = false;
