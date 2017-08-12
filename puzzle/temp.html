@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Practice</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        img{
+            cursor:pointer;
+            width:100px;
+            border:1px solid #eee;
+            margin-right:5px;
+        }
+        .box{
+            display:inline-block;
+        }
+        .clr{
+            clear:both;
+        }
+        </style>
+</head>
+<body>
+    <div class="img-wrap">
+        <h1>Make A Choice</h1>
+        <div class="box">
+            <img  src="background.jpg" />
+            <div class="guess_box"></div>
+        </div>
+        <div class="box">
+            <img src="background.jpg" />
+            <div class="guess_box"></div>
+        </div>
+        <div class="box">
+            <img src="background.jpg" />
+            <div class="guess_box"></div>
+        </div>
+        <div class="box">
+            <img src="background.jpg" />
+            <div class="guess_box"></div>
+        </div>
+        <div class="clr"></div>
+    </div>
+
+<script>
+
+    $(document).ready(function(){
+            function getRandom(num){
+                var my_num = Math.floor(Math.random()*num);
+                return my_num;
+            }
+            var hideCode = function(){
+                var numRand = getRandom(4);
+                console.log(numRand);
+                $(".guess_box").each(function(index, value) {
+                    if(numRand == index){
+                        $(this).append("<span id='has_discount'></span>");
+                        return false;
+                    }
+                });
+            }
+            hideCode();
+
+            $(".box").click(checkForCode);
+            $(".box").hover(
+                function hoverFunc(){
+                    $(this).css({'border':'5px solid #eee'})
+                },
+                function hoverFunc(){
+                    $(this).css({'border':'1px solid #eee'})
+                }
+            );
+
+            var ctr = 1;
+            function checkForCode(){
+                ctr++;
+                var win = false;
+                if($.contains(this, document.getElementById("has_discount") )){
+                    alert("Well Done");
+                    win = true;
+                }
+                else{
+                    if(ctr <=2)
+                        alert("sorry Wrong Choice, Try Again");
+                    else
+                        alert("sorry Wrong Choice, Game Over");
+                }
+
+                if(ctr > 2 || win == true) {
+                    //$(".box").unbind('click');
+                    $(".box").each(function (ind, val) {
+                        $(this).unbind('click');
+                        $(this).unbind('mouseenter mouseleave');
+                    });
+                }
+            };
+
+    });
+
+    </script>
+</body>
+</html>
