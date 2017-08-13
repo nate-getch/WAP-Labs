@@ -2,15 +2,16 @@ $(document).ready(function(){
 
     var puzzleArea = $('#puzzlearea');
     var divs = $("#puzzlearea div");
-
+    var initLoad = true;
+    
     function getRandom(num){
         var my_num = Math.floor(Math.random()*num);
         return my_num;
     }
     // initialize each piece
     //for (var i=0; i< divs.length; i++) {
-
-    var shuffle = function shuffle(){
+        
+    var generate = function generate(){
         $.each( $("#puzzlearea div"), function( i, val ) {
             //var div = divs[i];
 
@@ -24,7 +25,9 @@ $(document).ready(function(){
                 "left": x + 'px',
                 "top": y + 'px',
                 "backgroundImage": 'url("background.jpg")',
-                "backgroundPosition": -x + 'px ' + (-y) + 'px'
+                "background-position-x": -x + 'px ',
+                "background-position-y": -y + 'px '
+                //"backgroundPosition": -x + 'px ' + (-y) + 'px'
             });
             //div.style.left = x + 'px';
             //div.style.top = y + 'px';
@@ -35,17 +38,53 @@ $(document).ready(function(){
            // $(this).x = x;
           //  $(this).y = y;
         });
-        $('#puzzlearea').append("<div class='whitespot' style='left:300px;top:300px;'></div>");
         checkWin();
-    }
-
-    shuffle();
-
-    $("#shufflebutton").click(
-        function(){
-            //shuffle();
+        if(initLoad) {
+            $('#puzzlearea').append("<div class='whitespot' style='left:300px;top:300px;'></div>");
         }
-    );
+        initLoad = false;
+    }
+    generate();
+
+    $("#shufflebutton").click(function(){
+        var pieceHolderArr = [];
+         function getRandom(){
+                var my_num = Math.floor((Math.random()*16));
+                if(pieceHolderArr.includes(my_num)){
+                    return getRandom(); // am gonna go recursive, appology for the memory :(
+                }
+                pieceHolderArr.push(my_num);
+                return my_num;
+            }
+         /*
+         if(initLoad){
+            $('#puzzlearea').append("<div class='whitespot' style='left:300px;top:300px;'></div>");
+            initLoad = false;
+         }*/
+
+         $.each( $("#puzzlearea div"), function( i, val ) {
+            var rand = getRandom();
+            console.log(i + " ->" + rand);
+            var x = ((rand % 4) * 100) ;
+            var y = (Math.floor(rand / 4) * 100) ;
+
+            if($(this).hasClass("whitespot")){
+                $(this).css({
+                    "left": x + 'px',
+                    "top": y + 'px'
+                });
+            }
+            else{
+               // $(this).addClass("puzzlepiece");
+                $(this).css({
+                    "left": x + 'px',
+                    "top": y + 'px',
+                    "cursor":'pointer'
+                });
+            }
+        });
+         checkWin();
+    });
 
     $("#puzzlearea div").click(move);
 
@@ -90,27 +129,29 @@ $(document).ready(function(){
             current.css({'top':top+100+'px'});
             $(".whitespot").css({'top':top+'px'});
         }
-        checkWin();
-
-        
+       checkWin(); 
     }
-    /*
+    
     function checkWin(){
-        var win = false;
+        var win = true;
 
         $.each( $("#puzzlearea div"), function( i, val ) {
-            var x = ((i % 4) * 100) ;
-            var y = (Math.floor(i / 4) * 100) ;
-            if( !$(this).hasClass("whitespot") && $(this).css("backgroundPosition") != -x + 'px ' + (-y) + 'px' ){
-                win = true;
-                //return false;
+            if($(this).hasClass("whitespot") )
                 return;
-            }
-            win = false;
-            
+
+            var bgx = -1 * parseInt($(this).css("background-position-x"));
+            var bgy = -1 * parseInt($(this).css("background-position-y"));
+            var l = parseInt(($(this).css("left")));
+            var t = parseInt(($(this).css("top")));
+            if( bgx != l || bgy != t ){
+                win = false;
+                return;
+            }           
         });
-        alert(win);
+        if (!initLoad && win) {
+            alert("You Are a winner!");
+        }
     }
-    */
+    
 });
 
