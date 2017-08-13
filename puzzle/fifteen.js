@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-    var puzzleArea = $('#puzzlearea');
-    var divs = $("#puzzlearea div");
     var initLoad = true;
     
     function getRandom(num){
@@ -20,7 +18,7 @@ $(document).ready(function(){
             var y = (Math.floor(i / 4) * 100) ;
 
             // set basic style and background
-            $(this).addClass("puzzlepiece");//div.className = "puzzlepiece";
+            $(this).addClass("puzzlepiece");
             $(this).css({
                 "left": x + 'px',
                 "top": y + 'px',
@@ -29,14 +27,7 @@ $(document).ready(function(){
                 "background-position-y": -y + 'px '
                 //"backgroundPosition": -x + 'px ' + (-y) + 'px'
             });
-            //div.style.left = x + 'px';
-            //div.style.top = y + 'px';
-            // div.style.backgroundImage = 'url("background.jpg")';
-            //div.style.backgroundPosition = -x + 'px ' + (-y) + 'px';
 
-            // store x and y for later
-           // $(this).x = x;
-          //  $(this).y = y;
         });
         checkWin();
         if(initLoad) {
@@ -56,11 +47,6 @@ $(document).ready(function(){
                 pieceHolderArr.push(my_num);
                 return my_num;
             }
-         /*
-         if(initLoad){
-            $('#puzzlearea').append("<div class='whitespot' style='left:300px;top:300px;'></div>");
-            initLoad = false;
-         }*/
 
          $.each( $("#puzzlearea div"), function( i, val ) {
             var rand = getRandom();
@@ -75,7 +61,6 @@ $(document).ready(function(){
                 });
             }
             else{
-               // $(this).addClass("puzzlepiece");
                 $(this).css({
                     "left": x + 'px',
                     "top": y + 'px',
@@ -88,13 +73,7 @@ $(document).ready(function(){
 
     $("#puzzlearea div").click(move);
 
-    /*
-    if($("div").next("div").length > 0 ){
-    	alert("hello");
-    }
-    */
     function move(){
-        //alert($(this).css("top") + " Left:"+ $(this).css("left"));
         var top = parseInt($(this).css("top"));
         var left = parseInt($(this).css("left"));
         var current = $(this);
