@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>jQuery Simple Gallery</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style>
+	ul{
+		position:relative;
+		height:370px;
+	}
+	li {
+		position:absolute;
+		left:0px; right:0px;
+		display:none;
+	}
+
+	.first{
+		display:block;
+	}
+	.active{
+	}
+	</style>
+	
+</head>
+<body>
+<ul id="slide">
+	<li class="first active"><img src="img1.jpg" alt="" /> 0</li>
+	<li><img src="img2.jpg" alt="" />1</li>
+	<li><img src="img3.jpg" alt="" />2</li>
+</ul>
+<button id="next">Next</button>
+<button id="prev">Previous</button>
+
+<script>
+	$(document).ready(function(){
+	
+		var timer = null;
+		var initLoad = true;
+		
+		function removeFirstClass(){
+			//on initial, lets remove assigned class 'first'
+			if(initLoad == false){
+				return;
+			}
+			$("#slide li").first().removeClass("first");
+			initLoad = false;
+		}
+		
+		function nextSlide(){
+			removeFirstClass();
+			var current = $("li.active");
+			if(current.next().length > 0){
+				current.next().addClass("active").fadeIn( "slow");
+			}
+			else{
+				$("#slide li").first().addClass("active").fadeIn( "slow");
+			}
+			
+			current.removeClass("active").hide();
+			delayTimer();
+		}
+		
+		function prevSlide(){
+			removeFirstClass();
+			var current = $("li.active");
+			if(current.prev().length > 0){
+				current.prev().addClass("active").fadeIn( "slow");
+			}
+			else{
+				$("#slide li").last().addClass("active").fadeIn( "slow");
+			}
+			
+			current.removeClass("active").hide();
+			delayTimer();
+		}
+		
+		function randSlide(){
+			removeFirstClass();
+			var current = $("li.active");
+			var count = $("#slide").children().length;
+			var currentInd = $("li.active").index();
+			
+			function getRandom(){
+				var r = Math.floor(Math.random() * count);
+				console.log("Current: "+ currentInd + " randS: "+ r);
+				if(r == currentInd){
+					console.log("generating new random..");
+					return getRandom();
+				}
+				return r;
+			}
+			
+			var rand = getRandom();
+			console.log("Showing "+rand);
+			current.removeClass("active").hide();
+			$("#slide li").eq(rand).addClass("active").fadeIn( "slow");
+		}
+		
+		function delayTimer(){
+			clearInterval(timer);
+			timer = setInterval(randSlide, 3000);
+		}
+		
+		$("#next").click(nextSlide);
+		$("#prev").click(prevSlide);
+		
+		timer = setInterval(randSlide, 3000);
+				
+	});
+</script>
+</body>
+</html>
